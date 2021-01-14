@@ -83,6 +83,17 @@ AHDGGenerator >> contentsDir: anObject [
 	contentsDir := anObject
 ]
 
+{ #category : #'api - generation' }
+AHDGGenerator >> copyAsset: aFileReference [
+	aFileReference copyAllTo: self buildDir / aFileReference basename
+]
+
+{ #category : #'api - generation' }
+AHDGGenerator >> copyAssets [
+
+	(self configuredProperty: 'assets') do: [  :each | self copyAsset: each asFileReference ]
+]
+
 { #category : #'private - exporting' }
 AHDGGenerator >> exportFileContents: fileContents named: fileName [
 
@@ -98,7 +109,8 @@ AHDGGenerator >> exportFileContents: fileContents named: fileName [
 { #category : #'api - generation' }
 AHDGGenerator >> generate [
 	self generateIndex.
-	self generateCards
+	self generateCards.
+	self copyAssets.
 ]
 
 { #category : #'private - generation' }
