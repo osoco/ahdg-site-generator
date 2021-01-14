@@ -85,13 +85,19 @@ AHDGGenerator >> contentsDir: anObject [
 
 { #category : #'api - generation' }
 AHDGGenerator >> copyAsset: aFileReference [
-	aFileReference copyAllTo: self buildDir / aFileReference basename
+	| target |
+	target := self buildDir / aFileReference basename.
+	target exists
+		ifTrue: [ target deleteAll ].
+	aFileReference copyAllTo: target
 ]
 
 { #category : #'api - generation' }
 AHDGGenerator >> copyAssets [
 
-	(self configuredProperty: 'assets') do: [  :each | self copyAsset: each asFileReference ]
+	(self configuredProperty: 'assets') do: [  :each | 
+		
+		self copyAsset: each asFileReference ]
 ]
 
 { #category : #'private - exporting' }
