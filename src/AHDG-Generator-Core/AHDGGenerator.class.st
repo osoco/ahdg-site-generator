@@ -16,7 +16,7 @@ AHDGGenerator class >> generate [
 	self new
 		templatesDir: '../templates' asFileReference;
 		contentsDir: '../contents' asFileReference;
-		buildDir: '../web' asFileReference;
+		buildDir: '../docs' asFileReference;
 		configFile: '../config.json' asFileReference;
 		generate
 ]
