@@ -127,7 +127,7 @@ AHDGGenerator >> generateCards [
 		doWithIndex: [ :each :index | 
 			cardFile := self contentFile: (each at: 'alias') , '.pillar'.
 			cardPillar := PRPillarParser parse: cardFile contents.
-			cardContents := PRHTMLWriter write: cardPillar.
+			cardContents := self pillarHTMLWriter write: cardPillar.
 			previous := index > 1
 				ifTrue: [ cards at: index - 1 ]
 				ifFalse: [ cards atLast: 1 ].
@@ -165,12 +165,17 @@ AHDGGenerator >> generateIndex [
 	| indexFile indexPillar indexContents indexTemplate values indexHtml |
 	indexFile := self configuredContentFile: 'index'.
 	indexPillar := PRPillarParser parse: indexFile contents.
-	indexContents := PRHTMLWriter write: indexPillar.
+	indexContents := self pillarHTMLWriter write: indexPillar.
 	indexTemplate := self configuredTemplate: 'indexTemplate'.
 	values := self config.
 	values at: 'contents' put: indexContents.
 	indexHtml := self generateHtmlWith: indexTemplate on: values.
 	self exportFileContents: indexHtml named: 'index.html'
+]
+
+{ #category : #'as yet unclassified' }
+AHDGGenerator >> pillarHTMLWriter [
+	^ AHDGPillarHTMLWriter
 ]
 
 { #category : #accessing }
