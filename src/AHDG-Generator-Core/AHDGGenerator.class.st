@@ -115,6 +115,7 @@ AHDGGenerator >> exportFileContents: fileContents named: fileName [
 { #category : #'api - generation' }
 AHDGGenerator >> generate [
 	self generateIndex.
+	self generateIntro.
 	self generateCards.
 	self copyAssets.
 ]
@@ -171,6 +172,20 @@ AHDGGenerator >> generateIndex [
 	values at: 'contents' put: indexContents.
 	indexHtml := self generateHtmlWith: indexTemplate on: values.
 	self exportFileContents: indexHtml named: 'index.html'
+]
+
+{ #category : #'private - generation' }
+AHDGGenerator >> generateIntro [
+	
+	| introFile introPillar introContents introTemplate values introHtml |
+	introFile := self configuredContentFile: 'intro'.
+	introPillar := PRPillarParser parse: introFile contents.
+	introContents := self pillarHTMLWriter write: introPillar.
+	introTemplate := self configuredTemplate: 'introTemplate'.
+	values := self config.
+	values at: 'contents' put: introContents.
+	introHtml := self generateHtmlWith: introTemplate on: values.
+	self exportFileContents: introHtml named: 'intro.html'
 ]
 
 { #category : #'as yet unclassified' }
